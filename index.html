@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkify</title>
+    <link rel="icon" href="https://drive.google.com/file/d/1hB3SUR3RPC9ElvmL6a5NRMmqlFDTlMLK/view?usp=sharing"
+        type="image/icon type">
+
+    <!-- CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            background-color: #01001F;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding: 3vh 5vw;
+        }
+
+        .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 90px;
+        }
+
+        .convert {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            width: 80vw;
+            margin-bottom: 60px;
+        }
+
+        .inputs {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+        }
+
+        input {
+            height: 30px;
+            border-radius: 5px;
+            font-size: 18px;
+            padding: 5px;
+            margin: 8px;
+        }
+
+        button {
+            height: 58px;
+            padding: 5px 16px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: teal;
+            color: white;
+            transition: all 0.5s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        a {
+            color: white;
+            font-size: 24px;
+        }
+
+        .warning {
+            color: red;
+            font-size: 24px;
+        }
+
+        @media(max-width:700px) {
+            img {
+                width: 80vw;
+            }
+
+            input {
+                font-size: 12px;
+                height: 22px;
+            }
+
+            button {
+                font-size: 12px;
+                height: 30px;
+            }
+
+            a {
+                font-size: 18px;
+            }
+
+            .convert {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="title">
+            <img src="https://drive.google.com/file/d/1Je7yhTn7Mgts28iNQuhPhly3Kd71lw6R/view?usp=sharing">
+        </div>
+        <div class="convert">
+            <div class="inputs">
+                <input type="text" class="long" placeholder="Link here">
+                <input type="text" class="nm" placeholder="Custom link title (optional)">
+            </div>
+
+            <button class="submit">Linkify</button>
+        </div>
+        <a class="short" target="_blank"></a>
+        <div class="warning"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- JS -->
+    <script>
+        var long = document.querySelector(".long");
+        var submit = document.querySelector('.submit');
+        var short = document.querySelector('.short');
+        var nm = document.querySelector('.nm');
+        var warning = document.querySelector('.warning');
+
+
+        submit.addEventListener("click", async () => {
+            warning.innerText = "";
+            var res;
+            var flg = true;
+            if (!nm.value) {
+                res = await axios.get(`https://cutt.ly/api/api.php?key=2e77400bb78c756a8073452b60e9912b925ed&short=${long.value}`);
+            }
+            else if (nm.value.length < 3) {
+                flg = false;
+            }
+            else {
+                res = await axios.get(`https://cutt.ly/api/api.php?key=2e77400bb78c756a8073452b60e9912b925ed&short=${long.value}/&name=${nm.value}`);
+            }
+            if (!flg) {
+                warning.innerText = "Link title too short";
+                flg = true;
+            }
+            else if (res.data.url.status == 2 || res.data.url.title === "Page Not Found") {
+                warning.innerText = "URL may be invalid, try entering any other URL"
+            }
+            else if (res.data.url.status == 3) {
+                warning.innerText = "Link title already in use, try entering other title"
+            }
+            else {
+                short.innerText = res.data.url.shortLink;
+                short.setAttribute("href", res.data.url.shortLink);
+            }
+        })
+    </script>
+</body>
+
+</html>
