@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linkify</title>
-    <link rel="icon" href="https://drive.google.com/file/d/1hB3SUR3RPC9ElvmL6a5NRMmqlFDTlMLK/view?usp=sharing"
-        type="image/icon type">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <style>
@@ -29,7 +30,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 90px;
+            margin: 80px 0 90px 0;
+        }
+
+        .title>h1 {
+            color: white;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 60px;
         }
 
         .convert {
@@ -81,8 +88,8 @@
         }
 
         @media(max-width:700px) {
-            img {
-                width: 80vw;
+            .title>h1 {
+                font-size: 30px;
             }
 
             input {
@@ -111,7 +118,7 @@
 <body>
     <div class="wrapper">
         <div class="title">
-            <img src="https://drive.google.com/file/d/1Je7yhTn7Mgts28iNQuhPhly3Kd71lw6R/view?usp=sharing">
+            <h1>Link Shortner</h1>
         </div>
         <div class="convert">
             <div class="inputs">
